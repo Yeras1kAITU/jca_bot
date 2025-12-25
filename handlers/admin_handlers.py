@@ -896,7 +896,7 @@ assign_task_multi_conversation = ConversationHandler(
         MULTI_SELECT_MEMBERS: [
             CallbackQueryHandler(handle_multi_user_toggle, pattern="^toggle_user_"),
             CallbackQueryHandler(confirm_multi_selection, pattern="^confirm_selection$"),
-            CallbackQueryHandler(cancel_assignment, pattern="^cancel_multi_select$")
+            CallbackQueryHandler(cancel_assignment, pattern="^cancel_multi_select$"),  # ← Исправлено!
         ],
         MULTI_TASK_DETAILS: [
             MessageHandler(filters.TEXT & ~filters.COMMAND, get_multi_task_details),
