@@ -1,9 +1,16 @@
-# working_bot.py - ПРАВИЛЬНАЯ СТРУКТУРА
 import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ConversationHandler
 from telegram.ext import ContextTypes  # ← ВАЖНО!
 from config import config
+import sys
+import pkg_resources  # Явный импорт для инициализации
+
+# Принудительная инициализация pkg_resources
+try:
+    pkg_resources.require("setuptools>=65.5.0")
+except pkg_resources.DistributionNotFound:
+    pass
 
 # Настройка логирования
 logging.basicConfig(
