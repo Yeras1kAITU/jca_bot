@@ -1,7 +1,9 @@
+setuptools==79.7.0  # ← Фиксируем версию до удаления pkg_resources
+requests==2.31.0    # ← Новая версия без проблем с urllib3
+urllib3==2.0.7      # ← Явно указываем версию
 python-telegram-bot==20.7
 pyrebase4==4.6.0
 python-dotenv==1.0.0
 pydantic==1.10.13
-setuptools>=68.0.0
 wheel
 telegram
