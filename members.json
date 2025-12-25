@@ -1,0 +1,664 @@
+{
+  "members": {
+    "member_001": {
+      "full_name_ru": "Нукеева Амина",
+      "full_name_en": "Nukeyeva Amina",
+      "telegram": "Elishakitten",
+      "group": "ITE-2401",
+      "personality_type": "ENTJ",
+      "birth_date": "13.08.2006",
+      "role": "President",
+      "chat_id": 0
+    },
+    "member_002": {
+      "full_name_ru": "Рахымбай Еркебулан",
+      "full_name_en": "Rakhymbay Yerkebulan",
+      "telegram": "erko_rkh",
+      "group": "SE-2417",
+      "personality_type": "ENTJ",
+      "birth_date": "20.04.2007",
+      "role": "First Vice-president",
+      "chat_id": 0
+    },
+    "member_003": {
+      "full_name_ru": "Айтжан Ілияс",
+      "full_name_en": "Aitzhan Iliyas",
+      "telegram": "liyarum1rei",
+      "group": "SE-2417",
+      "personality_type": "ENTP",
+      "birth_date": "29.10.2006",
+      "role": "Second Vice-President",
+      "chat_id": 0
+    },
+    "member_004": {
+      "full_name_ru": "",
+      "full_name_en": "",
+      "telegram": "",
+      "group": "",
+      "personality_type": "",
+      "birth_date": "",
+      "role": "Head of HR",
+      "chat_id": 0
+    },
+    "member_005": {
+      "full_name_ru": "Мейрамбекқызы Каусар",
+      "full_name_en": "Kaussar Meirambekkyzy",
+      "telegram": "mikameeeeq",
+      "group": "IT-2513",
+      "personality_type": "INFP",
+      "birth_date": "16.12.2007",
+      "role": "Accountant/HR",
+      "chat_id": 0
+    },
+    "member_006": {
+      "full_name_ru": "Кисаменов Алан",
+      "full_name_en": "Kissamenov Alan",
+      "telegram": "hakujiisan",
+      "group": "SE-2414",
+      "personality_type": "INTP-A",
+      "birth_date": "05.11.2006",
+      "role": "HR",
+      "chat_id": 0
+    },
+    "member_007": {
+      "full_name_ru": "Тунгышбай Сымбат",
+      "full_name_en": "Tunggyshbay Symbat",
+      "telegram": "sh1nako",
+      "group": "SE-2510",
+      "personality_type": "ESTJ",
+      "birth_date": "18.03.2007",
+      "role": "Secretary/Mommy",
+      "chat_id": 0
+    },
+    "member_008": {
+      "full_name_ru": "Ибраев Ерасыл",
+      "full_name_en": "Ibrayev Yerassyl",
+      "telegram": "yeras1k",
+      "group": "SE-2425",
+      "personality_type": "ISTP",
+      "birth_date": "06.11.2004",
+      "role": "Secretary",
+      "chat_id": 0
+    },
+    "member_009": {
+      "full_name_ru": "Тажибаева Амина",
+      "full_name_en": "Tazhibayeva Amina",
+      "telegram": "l05842",
+      "group": "SE-2522",
+      "personality_type": "INFJ",
+      "birth_date": "17.12.2007",
+      "role": "Стажер ↑",
+      "chat_id": 0
+    },
+    "member_010": {
+      "full_name_ru": "Исабай Камила",
+      "full_name_en": "Issabay Kamila",
+      "telegram": "someonewhosurvived",
+      "group": "ST-2303",
+      "personality_type": "ENFJ",
+      "birth_date": "06.04.2005",
+      "role": "Head of Event Managment Department",
+      "chat_id": 0
+    },
+    "member_011": {
+      "full_name_ru": "",
+      "full_name_en": "",
+      "telegram": "",
+      "group": "",
+      "personality_type": "",
+      "birth_date": "",
+      "role": "Зам ↑",
+      "chat_id": 0
+    },
+    "member_012": {
+      "full_name_ru": "Конакбаева Дарина",
+      "full_name_en": "Konakbaeva Darina",
+      "telegram": "saionuri",
+      "group": "MT-2404",
+      "personality_type": "ISTP",
+      "birth_date": "10.05.2007",
+      "role": "Head of PR & Marketing Department",
+      "chat_id": 0
+    },
+    "member_013": {
+      "full_name_ru": "Демократ Абылай",
+      "full_name_en": "Demokrat Abylay",
+      "telegram": "dazaixc",
+      "group": "CS 2502",
+      "personality_type": "INTJ-T",
+      "birth_date": "17.07.2008",
+      "role": "Зам ↑",
+      "chat_id": 0
+    },
+    "member_014": {
+      "full_name_ru": "Есенбаева Асем",
+      "full_name_en": "Yessenabyeva Assem",
+      "telegram": "DJWmelon",
+      "group": "МT-2401",
+      "personality_type": "ENFP-T",
+      "birth_date": "20.06.2006",
+      "role": "Head of Creative Arts Department",
+      "chat_id": 0
+    },
+    "member_015": {
+      "full_name_ru": "Мирзанов Темирлан",
+      "full_name_en": "Mirzanov Temirlan",
+      "telegram": "temirlan_n",
+      "group": "SE-2418",
+      "personality_type": "ENFJ",
+      "birth_date": "03.06.2007",
+      "role": "Зам ↑",
+      "chat_id": 0
+    },
+    "member_016": {
+      "full_name_ru": "Рысбай Ерасыл",
+      "full_name_en": "Rysbay Yerassyl",
+      "telegram": "xenotolumi",
+      "group": "SE-2511",
+      "personality_type": "ISTJ-A",
+      "birth_date": "06.04.2008",
+      "role": "Head of Educational Department",
+      "chat_id": 0
+    },
+    "member_017": {
+      "full_name_ru": "",
+      "full_name_en": "",
+      "telegram": "",
+      "group": "",
+      "personality_type": "",
+      "birth_date": "",
+      "role": "Зам ↑",
+      "chat_id": 0
+    },
+    "member_018": {
+      "full_name_ru": "Куанышбек Айсана",
+      "full_name_en": "Kuanyshbek Aisana",
+      "telegram": "mi_u_mi",
+      "group": "SE-2428",
+      "personality_type": "ENFP",
+      "birth_date": "21.11.2007",
+      "role": "Head of Japan Traditional Games",
+      "chat_id": 0
+    },
+    "member_019": {
+      "full_name_ru": "",
+      "full_name_en": "",
+      "telegram": "",
+      "group": "",
+      "personality_type": "",
+      "birth_date": "",
+      "role": "Зам ↑",
+      "chat_id": 0
+    },
+    "member_020": {
+      "full_name_ru": "Гагарина Елизавета",
+      "full_name_en": "Gagarina Yelizaveta",
+      "telegram": "vveetaaa",
+      "group": "DJ-2503",
+      "personality_type": "ENFP",
+      "birth_date": "29.08.2007",
+      "role": "Head of Cosplay Society",
+      "chat_id": 0
+    },
+    "member_021": {
+      "full_name_ru": "Назымбек Аруна",
+      "full_name_en": "Nazymbek Aruna",
+      "telegram": "kiduani",
+      "group": "CS-2526",
+      "personality_type": "ENTP",
+      "birth_date": "04.03.2008",
+      "role": "Зам ↑",
+      "chat_id": 0
+    },
+    "member_022": {
+      "full_name_ru": "Кенже Дамир",
+      "full_name_en": "Kenzhe Damir",
+      "telegram": "dydsbxxh",
+      "group": "ADA-2404M",
+      "personality_type": "INTP",
+      "birth_date": "01.07.2003",
+      "role": "Translator",
+      "chat_id": 0
+    },
+    "member_023": {
+      "full_name_ru": "Абылхасым Әбілмансур",
+      "full_name_en": "Abylkhassym Abilmansur",
+      "telegram": "cheer_fool",
+      "group": "CS-2524",
+      "personality_type": "ESFJ",
+      "birth_date": "31.10.2006",
+      "role": "Deputy of Event Managment Department",
+      "chat_id": 0
+    },
+    "member_024": {
+      "full_name_ru": "",
+      "full_name_en": "",
+      "telegram": "",
+      "group": "",
+      "personality_type": "",
+      "birth_date": "",
+      "role": "Deputy of PR & Marketing Department",
+      "chat_id": 0
+    },
+    "member_025": {
+      "full_name_ru": "Жанпиисова Дильназ",
+      "full_name_en": "Zhanpiissova Dilnaz",
+      "telegram": "churiru",
+      "group": "CS-2509",
+      "personality_type": "INFP",
+      "birth_date": "15.07.2007",
+      "role": "Deputy of Creative Arts Department",
+      "chat_id": 0
+    },
+    "member_026": {
+      "full_name_ru": "",
+      "full_name_en": "",
+      "telegram": "",
+      "group": "",
+      "personality_type": "",
+      "birth_date": "",
+      "role": "Deputy of Educational Department",
+      "chat_id": 0
+    },
+    "member_027": {
+      "full_name_ru": "Ақылбек Даниял",
+      "full_name_en": "Akylbek Daniyal",
+      "telegram": "random_resaet",
+      "group": "SE-2530",
+      "personality_type": "ENTP",
+      "birth_date": "09.01.2008",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_028": {
+      "full_name_ru": "Шитканов Батырхан",
+      "full_name_en": "Shitkanov Batyrkhan",
+      "telegram": "just_btrkhn",
+      "group": "EE-2402",
+      "personality_type": "ENTJ-T",
+      "birth_date": "04.08.2007",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_029": {
+      "full_name_ru": "Жаксылык Азамат",
+      "full_name_en": "Zhaksylyk Azamat",
+      "telegram": "DarkxuyNeo",
+      "group": "CS-2501",
+      "personality_type": "INTP",
+      "birth_date": "19.05.2008",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_030": {
+      "full_name_ru": "Асет Жансерік",
+      "full_name_en": "Asset Zhanserik",
+      "telegram": "sik0sh7",
+      "group": "ST-2503",
+      "personality_type": "INTP",
+      "birth_date": "18.10.2007",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_031": {
+      "full_name_ru": "Алхенди Тамам",
+      "full_name_en": "Alhendi Tamam",
+      "telegram": "NotTamam",
+      "group": "BDA-2402",
+      "personality_type": "INFJ",
+      "birth_date": "08.04.2004",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_032": {
+      "full_name_ru": "Узакбаев Нурадил",
+      "full_name_en": "Uzakbayev Nuradil",
+      "telegram": "nurchik000007",
+      "group": "SE-2502",
+      "personality_type": "ENTJ",
+      "birth_date": "7.12.2007",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_033": {
+      "full_name_ru": "Ораз Камила",
+      "full_name_en": "Oraz Kamila",
+      "telegram": "kamoosyaa",
+      "group": "ITE-2501",
+      "personality_type": "ENFJ",
+      "birth_date": "01.11.2007",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_034": {
+      "full_name_ru": "Шеркенов Жанасыл",
+      "full_name_en": "Sherkenov Zhanassyl",
+      "telegram": "zhadusen",
+      "group": "SE-2433",
+      "personality_type": "ISTJ",
+      "birth_date": "25.8.2006",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_035": {
+      "full_name_ru": "Кенжебаева Меруерт",
+      "full_name_en": "Kenzhebayeva Meruyert",
+      "telegram": "luralune",
+      "group": "CS-2523",
+      "personality_type": "INFJ",
+      "birth_date": "20.3.2007",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_036": {
+      "full_name_ru": "Амралина Камила",
+      "full_name_en": "Amralina Kamila",
+      "telegram": "footballoyo",
+      "group": "SE-2427",
+      "personality_type": "Enfp",
+      "birth_date": "26.8.2006",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_037": {
+      "full_name_ru": "Кабдыкалык Расима",
+      "full_name_en": "Кабдыкалык Расима",
+      "telegram": "rvsimv",
+      "group": "ITE-2501",
+      "personality_type": "ENTJ",
+      "birth_date": "4.1.2008",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_038": {
+      "full_name_ru": "Клушева Нурсая",
+      "full_name_en": "Klusheva Nursaya",
+      "telegram": "kiraribda",
+      "group": "BDA-2502",
+      "personality_type": "ESTJ",
+      "birth_date": "23.7.2007",
+      "role": "Technician",
+      "chat_id": 0
+    },
+    "member_039": {
+      "full_name_ru": "ХАССАНЯР ХЕКМАТУЛЛАХ",
+      "full_name_en": "Hekmatullah Hassanyar",
+      "telegram": "hekmatullahhassanyar",
+      "group": "IT-2512",
+      "personality_type": "ENFJ-T",
+      "birth_date": "12.6.2007",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_040": {
+      "full_name_ru": "Арыстан Аманов",
+      "full_name_en": "Arystan Amanov",
+      "telegram": "common_clerk",
+      "group": "CS-2503",
+      "personality_type": "ENTJ",
+      "birth_date": "17.11.2007",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_041": {
+      "full_name_ru": "Кубекова Альфия",
+      "full_name_en": "Kubekova Alfiya",
+      "telegram": "Gdhdjdjd09",
+      "group": "CS-2435",
+      "personality_type": "INTJ",
+      "birth_date": "09.08.2006",
+      "role": "Event Managers",
+      "chat_id": 0
+    },
+    "member_042": {
+      "full_name_ru": "Жухай Дархан",
+      "full_name_en": "Zhukhay Darkhan",
+      "telegram": "dcxlg",
+      "group": "SE-2537",
+      "personality_type": "ISTP-T",
+      "birth_date": "05.08.2007",
+      "role": "Photographers",
+      "chat_id": 0
+    },
+    "member_043": {
+      "full_name_ru": "Султанова Линура",
+      "full_name_en": "Sultanova Linura",
+      "telegram": "vvkwiiechi",
+      "group": "SE-2512",
+      "personality_type": "INTP",
+      "birth_date": "14.06.2006",
+      "role": "Designers",
+      "chat_id": 0
+    },
+    "member_044": {
+      "full_name_ru": "Абсат Данияр",
+      "full_name_en": "Absat Daniyar",
+      "telegram": "donyyAbS",
+      "group": "SE-2433",
+      "personality_type": "INTP",
+      "birth_date": "12.06.2006",
+      "role": "Copywriters",
+      "chat_id": 0
+    },
+    "member_045": {
+      "full_name_ru": "Нурекенов Адильжан",
+      "full_name_en": "Nurekenov Adilzhan",
+      "telegram": "adr2077",
+      "group": "DPA-2501",
+      "personality_type": "",
+      "birth_date": "15.11.2006",
+      "role": "Copywriters",
+      "chat_id": 0
+    },
+    "member_046": {
+      "full_name_ru": "Мұқаметхан Әмина",
+      "full_name_en": "Mukametkhan Amina",
+      "telegram": "ominok",
+      "group": "DJ-2502",
+      "personality_type": "ENTJ",
+      "birth_date": "10.05.2006",
+      "role": "Mobilograph",
+      "chat_id": 0
+    },
+    "member_047": {
+      "full_name_ru": "Назаров Диас",
+      "full_name_en": "Nazarov Dias",
+      "telegram": "shikonokonok",
+      "group": "SE-2535",
+      "personality_type": "ESTJ-T",
+      "birth_date": "20.01.2008",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_048": {
+      "full_name_ru": "Коновалов Владимир",
+      "full_name_en": "Konovalov Vladimir",
+      "telegram": "t4llfly",
+      "group": "MT-2507",
+      "personality_type": "ISTP",
+      "birth_date": "15.01.2008",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_049": {
+      "full_name_ru": "Укаев Вадим",
+      "full_name_en": "Ukayev Vadim",
+      "telegram": "LlFELOVER",
+      "group": "IT-2513",
+      "personality_type": "INFP-T",
+      "birth_date": "23.07.2008",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_050": {
+      "full_name_ru": "Толеугали Алимгер",
+      "full_name_en": "Toleugali Alimger",
+      "telegram": "osadox",
+      "group": "SE-2534",
+      "personality_type": "ISFJ-T",
+      "birth_date": "24.05.2008",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_051": {
+      "full_name_ru": "Сатылбалдинова Анель",
+      "full_name_en": "Satybaldinova Anel",
+      "telegram": "teokaj",
+      "group": "MT-2305",
+      "personality_type": "INTJ",
+      "birth_date": "27.08.2005",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_052": {
+      "full_name_ru": "Ермаганбетова Сара",
+      "full_name_en": "Yermaganbetova Sara",
+      "telegram": "hit0_0mi",
+      "group": "SE-2525",
+      "personality_type": "ESFJ-T",
+      "birth_date": "22.02.2008",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_053": {
+      "full_name_ru": "Жаманбалиинов Агзам",
+      "full_name_en": "Zhamanbalinov Agzam",
+      "telegram": "inf_to_lif",
+      "group": "ПО-2406",
+      "personality_type": "",
+      "birth_date": "30.05.2008",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_054": {
+      "full_name_ru": "Муафик Досхан",
+      "full_name_en": "Muafik Doskhan",
+      "telegram": "old_fashioned_boy",
+      "group": "CS-2519",
+      "personality_type": "",
+      "birth_date": "18.01.2006",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_055": {
+      "full_name_ru": "Кайргалиев Сагындык",
+      "full_name_en": "Kairgaliyev Sagyndyk",
+      "telegram": "Ciminoko_v2",
+      "group": "CS-2314",
+      "personality_type": "INTP",
+      "birth_date": "07.06.2006",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_056": {
+      "full_name_ru": "Нурсат Сейткул",
+      "full_name_en": "Nursat Seitkul",
+      "telegram": "Newton_I",
+      "group": "CS-2403",
+      "personality_type": "",
+      "birth_date": "06.05.2005",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_057": {
+      "full_name_ru": "Алмас Амренов",
+      "full_name_en": "Almas Amrenov",
+      "telegram": "a1massssss",
+      "group": "ADA-2503M",
+      "personality_type": "INTP",
+      "birth_date": "24.07.2005",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_058": {
+      "full_name_ru": "Рощупкин Дмитрий",
+      "full_name_en": "Dmitriy Rochshupkin",
+      "telegram": "dmitry_rspkn",
+      "group": "IT-2505",
+      "personality_type": "INFP",
+      "birth_date": "30.11.2007",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_059": {
+      "full_name_ru": "Молдажанов Альмеин",
+      "full_name_en": "Moldazhanov Almein",
+      "telegram": "Alerius1",
+      "group": "CS-2515",
+      "personality_type": "ENFJ",
+      "birth_date": "05.08.2008",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_060": {
+      "full_name_ru": "Дисенова Альмира",
+      "full_name_en": "Dissenova Almira",
+      "telegram": "mirayori",
+      "group": "MT-2406",
+      "personality_type": "ISFP",
+      "birth_date": "16.11.2006",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_061": {
+      "full_name_ru": "Насенова Алтынай",
+      "full_name_en": "Altynay Nassenova",
+      "telegram": "altykpopi",
+      "group": "DJ-2502",
+      "personality_type": "ENFP-A",
+      "birth_date": "15.10.2007",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_062": {
+      "full_name_ru": "Мұхамбет Шахназар",
+      "full_name_en": "Mukhambet Shakhnazar",
+      "telegram": "ELPLANALONSO",
+      "group": "DJ-2401",
+      "personality_type": "",
+      "birth_date": "03.07.2006",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_063": {
+      "full_name_ru": "Амантай Альтаир",
+      "full_name_en": "Amantai Altayir",
+      "telegram": "altalime2005l",
+      "group": "SE-2328",
+      "personality_type": "INFP",
+      "birth_date": "12.09.2005",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_064": {
+      "full_name_ru": "Жунусов Рамиль",
+      "full_name_en": "Zhunusov Ramil",
+      "telegram": "zemmeus",
+      "group": "SE-2510",
+      "personality_type": "ISFP",
+      "birth_date": "25.10.2007",
+      "role": "Creative Students",
+      "chat_id": 0
+    },
+    "member_065": {
+      "full_name_ru": "Карсакбай Айгерім",
+      "full_name_en": "Karsakbay Aigerim",
+      "telegram": "xhanakox",
+      "group": "SE-2526",
+      "personality_type": "INFJ",
+      "birth_date": "15.04.2008",
+      "role": "Game Master",
+      "chat_id": 0
+    },
+    "member_066": {
+      "full_name_ru": "Иванов Иван",
+      "full_name_en": "Ivanov Ivan",
+      "telegram": "not_yeras1k",
+      "group": "SE-2328",
+      "personality_type": "INFP",
+      "birth_date": "12.09.2005",
+      "role": "Creative Students",
+      "chat_id": 0
+    }
+  }
+}
