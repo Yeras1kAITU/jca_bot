@@ -93,6 +93,20 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await update.message.reply_text(help_text, parse_mode='Markdown')
 
+async def cancel_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработка команды /cancel"""
+    if context.user_data.get("awaiting_input"):
+        context.user_data.pop("awaiting_input", None)
+        await update.message.reply_text(
+            "Операция отменена.",
+            reply_markup=get_main_menu_keyboard(context.user_data.get("is_admin", False))
+        )
+    else:
+        await update.message.reply_text(
+            "Нет активной операции для отмены.",
+            reply_markup=get_main_menu_keyboard(context.user_data.get("is_admin", False))
+        )
+
 async def handle_unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработка неизвестных команд"""
     await update.message.reply_text(

@@ -56,17 +56,27 @@ async def test_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print("🎯 TEST COMMAND ВЫЗВАНА!")
     await update.message.reply_text("✅ Тестовая команда работает!")
 
+async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Глобальный обработчик команды отмены"""
+    await update.message.reply_text(
+        "Операция отменена.",
+        reply_markup=get_main_menu_keyboard(context.user_data.get("is_admin", False))
+    )
+    return ConversationHandler.END
+
 def main():
     """Запуск простого рабочего бота"""
     print(f"Бот запускается...")
     
     application = Application.builder().token(config.BOT_TOKEN).build()
     
+    application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), cancel_handler))
     # 1. Обработчики команд
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("test", test_command))  # ← ДОБАВЬ ЭТУ СТРОКУ
-    
+    application.add_handler(CommandHandler("cancel", cancel_handler))
+
     # 2. Conversation handlers для админов
     try:
         application.add_handler(assign_task_multi_conversation)
@@ -108,8 +118,8 @@ def main():
     # 5. Обработчики сообщений для членов клуба
     application.add_handler(MessageHandler(filters.Regex("^📋 Мои задания$"), show_my_tasks))
     application.add_handler(MessageHandler(filters.Regex("^👥 Информация о себе$"), show_my_info))
+    application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), cancel_handler))
     print("✅ Пользовательские обработчики")
-    
     # 6. Обработчик неизвестных команд
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_unknown_command))
     print("✅ Обработчик неизвестных команд")

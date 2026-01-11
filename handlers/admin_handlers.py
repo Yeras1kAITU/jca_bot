@@ -2,7 +2,7 @@ from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import ContextTypes, ConversationHandler, CommandHandler, MessageHandler, filters, CallbackQueryHandler
 from firebase_service import FirebaseService
 from models import Task, TaskAssignment, TaskStatus, UserRole, Member
-from config import config  # ⬅️ ЭТО ОЧЕНЬ ВАЖНО ДОБАВИТЬ!
+from config import config
 from datetime import datetime
 import html
 import re
@@ -712,70 +712,48 @@ async def get_multi_task_details(update: Update, context: ContextTypes.DEFAULT_T
 # admin_handlers.py - добавьте перед ConversationHandler
 
 async def cancel_assignment(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Отмена назначения задания - ИСПРАВЛЕННАЯ версия для работы с callback query"""
+    """Универсальный обработчик отмены для ConversationHandler"""
     try:
         print(f"\n🔍 DEBUG cancel_assignment:")
-        print(f"  Type of update: {type(update)}")
-        print(f"  update.message: {update.message}")
-        print(f"  update.callback_query: {update.callback_query}")
-        
-        # Определяем, откуда пришел запрос
-        if update.callback_query:
-            # Если это callback query (нажатие кнопки)
-            query = update.callback_query
-            await query.answer("Отмена...")
-            message = query.message
-            print(f"  Callback data: {query.data}")
-        elif update.message:
-            # Если это текстовое сообщение
-            message = update.message
-        else:
-            print("❌ Неизвестный тип update в cancel_assignment")
-            return ConversationHandler.END
         
         # Очищаем временные данные
-        for key in ["task_title", "task_description", "assign_to", 
-                   "selected_users", "available_members", "selection_message_id"]:
+        keys_to_remove = [
+            "task_title", "task_description", "assign_to", 
+            "selected_users", "available_members", "selection_message_id",
+            "new_member_telegram", "new_member_full_name_ru", 
+            "new_member_full_name_en", "new_member_group",
+            "new_member_personality_type", "new_member_birth_date",
+            "awaiting_input", "comment_task_id"
+        ]
+        
+        for key in keys_to_remove:
             if key in context.user_data:
                 print(f"  Удаляю из user_data: {key}")
                 context.user_data.pop(key, None)
         
-        # Отправляем сообщение об отмене
+        # Определяем откуда пришел запрос
+        if update.callback_query:
+            query = update.callback_query
+            await query.answer("Отмена...")
+            message = query.message
+        elif update.message:
+            message = update.message
+        else:
+            return ConversationHandler.END
+        
+        # Отправляем сообщение с правильной клавиатурой
+        is_admin = context.user_data.get("is_admin", False)
+        from keyboards import get_main_menu_keyboard
+        
         await message.reply_text(
-            "❌ Назначение задания отменено.",
-            reply_markup=get_main_menu_keyboard(is_admin=True)
+            "❌ Операция отменена.",
+            reply_markup=get_main_menu_keyboard(is_admin)
         )
         
-        # Если это был callback query, удаляем клавиатуру
-        if update.callback_query:
-            try:
-                await query.edit_message_reply_markup(reply_markup=None)
-            except:
-                pass  # Игнорируем ошибки при удалении клавиатуры
-        
-        print(f"  ✅ Отмена выполнена успешно")
         return ConversationHandler.END
         
     except Exception as e:
         print(f"❌ Ошибка в cancel_assignment: {e}")
-        import traceback
-        traceback.print_exc()
-        
-        # Пытаемся отправить сообщение об ошибке
-        try:
-            if update.callback_query:
-                await update.callback_query.message.reply_text(
-                    "❌ Ошибка при отмене операции.",
-                    reply_markup=get_main_menu_keyboard(is_admin=True)
-                )
-            elif update.message:
-                await update.message.reply_text(
-                    "❌ Ошибка при отмене операции.",
-                    reply_markup=get_main_menu_keyboard(is_admin=True)
-                )
-        except:
-            pass
-        
         return ConversationHandler.END
 
 async def handle_member_info_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
