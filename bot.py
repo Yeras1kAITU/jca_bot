@@ -31,12 +31,12 @@ try:
         handle_member_info_callback, 
         assign_task_multi_conversation,
         add_member_conversation,
-        handle_multi_user_toggle,  # ДОБАВЬТЕ ЭТО
-        confirm_multi_selection,   # ДОБАВЬТЕ ЭТО
-        cancel_assignment,         # ДОБАВЬТЕ ЭТО
-        assign_task_multi_start,   # ДОБАВЬТЕ ЭТО
-        add_member_start,          # ДОБАВЬТЕ ЭТО
-        get_multi_task_details     # ДОБАВЬТЕ ЭТО
+        handle_multi_user_toggle,
+        confirm_multi_selection,
+        cancel_assignment,
+        assign_task_multi_start,
+        add_member_start,
+        get_multi_task_details
     )
     print("✅ admin_handlers загружен")
 except ImportError as e:
@@ -105,6 +105,33 @@ async def handle_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=get_main_menu_keyboard(is_admin)
     )
 
+# ИСПРАВЛЕННЫЙ ОБРАБОТЧИК НЕИЗВЕСТНЫХ КОМАНД
+async def smart_unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Умный обработчик неизвестных команд - не срабатывает при активном ConversationHandler"""
+    print(f"\n🔍 SMART UNKNOWN COMMAND:")
+    print(f"  Сообщение: {update.message.text}")
+    print(f"  User_data keys: {list(context.user_data.keys())}")
+    
+    # Проверяем, есть ли признаки активного ConversationHandler
+    # Если есть ключи ConversationHandler, пропускаем обработку
+    conversation_keys = [
+        "task_title", "task_description", "assign_to", 
+        "selected_users", "available_members", "selection_message_id",
+        "new_member_telegram", "new_member_full_name_ru", 
+        "new_member_full_name_en", "new_member_group",
+        "new_member_personality_type", "new_member_birth_date",
+        "awaiting_input", "comment_task_id"
+    ]
+    
+    # Если есть любой из этих ключей, значит ConversationHandler активен
+    for key in conversation_keys:
+        if key in context.user_data:
+            print(f"  Пропускаю - активен ConversationHandler (ключ: {key})")
+            return  # НЕ ОБРАБАТЫВАЕМ, пусть ConversationHandler сам разберется
+    
+    # Иначе обрабатываем как неизвестную команду
+    await handle_unknown_command(update, context)
+
 # ОБЫЧНЫЕ ОБРАБОТЧИКИ КНОПОК ГЛАВНОГО МЕНЮ (БЕЗ СБРОСА)
 async def handle_show_members(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показать всех членов"""
@@ -143,7 +170,7 @@ def main():
     
     application = Application.builder().token(config.BOT_TOKEN).build()
     
-    # 0. CALLBACK HANDLERS - ВЫСШИЙ ПРИОРИТЕТ (ДОБАВЬТЕ ПЕРВЫМИ!)
+    # 0. CALLBACK HANDLERS - ВЫСШИЙ ПРИОРИТЕТ
     application.add_handler(CallbackQueryHandler(handle_task_view, pattern="^view_task_"))
     application.add_handler(CallbackQueryHandler(handle_task_status_change, pattern="^set_status"))
     application.add_handler(CallbackQueryHandler(handle_refresh_tasks, pattern="^refresh_tasks$"))
@@ -166,13 +193,23 @@ def main():
     application.add_handler(CommandHandler("test", test_command))
     print("✅ Командные обработчики добавлены")
     
-    # 3. ОБРАБОТЧИКИ КНОПОК ГЛАВНОГО МЕНЮ
+    # 3. CONVERSATION HANDLERS для админов - ВАЖНО: ДО обработчиков кнопок!
+    try:
+        # ConversationHandler для выдачи задания
+        application.add_handler(assign_task_multi_conversation)
+        # ConversationHandler для добавления участника
+        application.add_handler(add_member_conversation)
+        print("✅ Conversation handlers добавлены (ВЫСОКИЙ ПРИОРИТЕТ)")
+    except Exception as e:
+        print(f"⚠️  Conversation handlers ошибка: {e}")
+    
+    # 4. ОБРАБОТЧИКИ КНОПОК ГЛАВНОГО МЕНЮ - ПОСЛЕ ConversationHandler
     # Для администраторов
     admin_patterns = [
         ("^👥 Все члены клуба$", handle_show_members),
         ("^📊 Статус заданий$", handle_view_tasks_status),
-        ("^➕ Выдать задание$", start_assign_task),  # со сбросом
-        ("^👤 Добавить участника$", start_add_member),  # со сбросом
+        ("^➕ Выдать задание$", start_assign_task),
+        ("^👤 Добавить участника$", start_add_member),
     ]
     
     for pattern, handler in admin_patterns:
@@ -189,24 +226,14 @@ def main():
         application.add_handler(MessageHandler(filters.Regex(pattern), handler))
     print("✅ Пользовательские обработчики")
     
-    # 4. CONVERSATION HANDLERS для админов
-    try:
-        # ConversationHandler для выдачи задания
-        application.add_handler(assign_task_multi_conversation)
-        # ConversationHandler для добавления участника
-        application.add_handler(add_member_conversation)
-        print("✅ Conversation handlers добавлены")
-    except Exception as e:
-        print(f"⚠️  Conversation handlers ошибка: {e}")
-    
-    # 5. Обработчик неизвестных команд
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_unknown_command))
-    print("✅ Обработчик неизвестных команд")
+    # 5. УМНЫЙ ОБРАБОТЧИК НЕИЗВЕСТНЫХ КОМАНД - САМЫЙ ПОСЛЕДНИЙ
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, smart_unknown_command))
+    print("✅ Умный обработчик неизвестных команд добавлен")
     
     print("\n" + "=" * 60)
     print("✅ БОТ ЗАПУЩЕН!")
     print("=" * 60)
-    print("🎯 Callback кнопки и ConversationHandler должны работать")
+    print("🎯 ConversationHandler теперь имеет приоритет")
     print("=" * 60)
     
     application.run_polling(allowed_updates=Update.ALL_TYPES)
