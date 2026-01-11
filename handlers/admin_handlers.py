@@ -288,7 +288,6 @@ async def cancel_add_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return ConversationHandler.END
 
 
-# Создаем ConversationHandler для добавления участников
 add_member_conversation = ConversationHandler(
     entry_points=[MessageHandler(filters.Regex("^👤 Добавить участника$"), add_member_start)],
     states={
@@ -304,6 +303,7 @@ add_member_conversation = ConversationHandler(
         MessageHandler(filters.Regex("^❌ Отмена$"), cancel_add_member),
         CommandHandler("cancel", cancel_add_member)
     ],
+    per_message=True,  # ДОБАВЬТЕ ЭТУ СТРОКУ
 )
 
 async def show_all_members(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -815,13 +815,18 @@ assign_task_multi_conversation = ConversationHandler(
             CallbackQueryHandler(handle_multi_user_toggle, pattern="^toggle_user_"),
             CallbackQueryHandler(confirm_multi_selection, pattern="^confirm_selection$"),
             CallbackQueryHandler(cancel_assignment, pattern="^cancel_multi_select$"),
+            # Добавьте обработку кнопок главного меню как выход из состояния
+            MessageHandler(filters.Regex("^❌ Отмена$"), cancel_assignment),
         ],
         MULTI_TASK_DETAILS: [
             MessageHandler(filters.TEXT & ~filters.COMMAND, get_multi_task_details),
+            MessageHandler(filters.Regex("^❌ Отмена$"), cancel_assignment),
         ],
     },
     fallbacks=[
         MessageHandler(filters.Regex("^❌ Отмена$"), cancel_assignment),
-        CommandHandler("cancel", cancel_assignment)
+        CommandHandler("cancel", cancel_assignment),
     ],
+    per_message=True,  # ДОБАВЬТЕ ЭТУ СТРОКУ
 )
+
