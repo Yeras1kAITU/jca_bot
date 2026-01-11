@@ -51,7 +51,6 @@ except ImportError as e:
 print("\n🎯 НАСТРОЙКА CALLBACK ОБРАБОТЧИКОВ")
 print("=" * 60)
 
-# ТЕСТОВАЯ КОМАНДА (добавь перед main())
 async def test_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Тестовая команда"""
     print("🎯 TEST COMMAND ВЫЗВАНА!")
@@ -59,7 +58,7 @@ async def test_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     """Запуск простого рабочего бота"""
-    print(f"🤖 Бот запускается...")
+    print(f"Бот запускается...")
     
     application = Application.builder().token(config.BOT_TOKEN).build()
     

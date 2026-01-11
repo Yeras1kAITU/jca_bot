@@ -788,7 +788,6 @@ async def handle_member_info_callback(update: Update, context: ContextTypes.DEFA
         member = firebase_service.get_member_by_telegram(member_username)
         
         if member:
-            # Функция для экранирования MarkdownV2
             def escape_markdown_v2(text):
                 if not text:
                     return ""
@@ -877,7 +876,7 @@ assign_task_multi_conversation = ConversationHandler(
         MULTI_SELECT_MEMBERS: [
             CallbackQueryHandler(handle_multi_user_toggle, pattern="^toggle_user_"),
             CallbackQueryHandler(confirm_multi_selection, pattern="^confirm_selection$"),
-            CallbackQueryHandler(cancel_assignment, pattern="^cancel_multi_select$"),  # ← Исправлено!
+            CallbackQueryHandler(cancel_assignment, pattern="^cancel_multi_select$"),
         ],
         MULTI_TASK_DETAILS: [
             MessageHandler(filters.TEXT & ~filters.COMMAND, get_multi_task_details),
