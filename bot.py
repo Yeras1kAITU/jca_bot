@@ -64,10 +64,10 @@ async def test_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print("🎯 TEST COMMAND ВЫЗВАНА!")
     await update.message.reply_text("✅ Тестовая команда работает!")
 
-# ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ - ТОЛЬКО ОДНА ФУНКЦИЯ
+# ТИХИЙ ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ - ТОЛЬКО СБРОС
 async def global_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Глобальный обработчик отмены для всех состояний"""
-    print("\n🔍 ГЛОБАЛЬНАЯ ОТМЕНА:")
+    """Глобальный обработчик отмены для всех состояний - ТИХАЯ ВЕРСИЯ"""
+    print("\n🔍 ГЛОБАЛЬНАЯ ОТМЕНА (тихий сброс):")
     print(f"  Пользователь: @{update.effective_user.username}")
     
     # ПРИНУДИТЕЛЬНЫЙ СБРОС ВСЕХ СОСТОЯНИЙ
@@ -87,42 +87,60 @@ async def global_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 3. Восстанавливаем важные данные
     context.user_data.update(important_data)
     
-    # 4. Принудительно завершаем ВСЕ ConversationHandler
-    # Возвращаем ConversationHandler.END чтобы выйти из любого состояния
+    # 4. Возвращаем ConversationHandler.END чтобы выйти из любого состояния
+    return ConversationHandler.END
+
+# ОБРАБОТЧИК КНОПКИ ОТМЕНЫ
+async def handle_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработчик кнопки '❌ Отмена' - показывает сообщение"""
+    await global_cancel(update, context)  # тихий сброс
     is_admin = context.user_data.get("is_admin", False)
     
     await update.message.reply_text(
-        "✅ Возвращаюсь в главное меню.",
+        "✅ Операция отменена.",
         reply_markup=get_main_menu_keyboard(is_admin)
     )
-    
-    return ConversationHandler.END
 
 # ОБЕРТКИ ДЛЯ КНОПОК ГЛАВНОГО МЕНЮ С ПРИНУДИТЕЛЬНЫМ СБРОСОМ
 async def reset_and_show_members(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Сбросить состояние и показать всех членов"""
-    await global_cancel(update, context)
+    await global_cancel(update, context)  # ТИХИЙ сброс
     await show_all_members(update, context)
 
 async def reset_and_show_my_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Сбросить состояние и показать мои задания"""
-    await global_cancel(update, context)
+    await global_cancel(update, context)  # ТИХИЙ сброс
     await show_my_tasks(update, context)
 
 async def reset_and_show_my_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Сбросить состояние и показать информацию о себе"""
-    await global_cancel(update, context)
+    await global_cancel(update, context)  # ТИХИЙ сброс
     await show_my_info(update, context)
 
 async def reset_and_view_tasks_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Сбросить состояние и показать статус заданий"""
-    await global_cancel(update, context)
+    await global_cancel(update, context)  # ТИХИЙ сброс
     await view_tasks_status(update, context)
 
 async def reset_and_admin_dashboard(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Сбросить состояние и показать админ панель"""
-    await global_cancel(update, context)
+    await global_cancel(update, context)  # ТИХИЙ сброс
     await admin_dashboard(update, context)
+
+# СПЕЦИАЛЬНЫЕ ОБЕРТКИ ДЛЯ ЗАПУСКА CONVERSATION HANDLER
+async def start_assign_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Начать процесс выдачи задания"""
+    await global_cancel(update, context)  # ТИХИЙ сброс
+    # Теперь нужно запустить ConversationHandler
+    from handlers.admin_handlers import assign_task_multi_start
+    return await assign_task_multi_start(update, context)
+
+async def start_add_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Начать процесс добавления участника"""
+    await global_cancel(update, context)  # ТИХИЙ сброс
+    # Теперь нужно запустить ConversationHandler
+    from handlers.admin_handlers import add_member_start
+    return await add_member_start(update, context)
 
 def main():
     """Запуск простого рабочего бота"""
@@ -131,8 +149,8 @@ def main():
     application = Application.builder().token(config.BOT_TOKEN).build()
     
     # 0. ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ - ВЫСШИЙ ПРИОРИТЕТ
-    application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), global_cancel))
-    application.add_handler(CommandHandler("cancel", global_cancel))
+    application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), handle_cancel))
+    application.add_handler(CommandHandler("cancel", handle_cancel))
     print("✅ Глобальный обработчик отмены добавлен")
     
     # 1. Обработчики команд
@@ -146,8 +164,8 @@ def main():
     admin_patterns = [
         ("^👥 Все члены клуба$", reset_and_show_members),
         ("^📊 Статус заданий$", reset_and_view_tasks_status),
-        ("^➕ Выдать задание$", reset_and_admin_dashboard),  # Здесь будет запуск ConversationHandler
-        ("^👤 Добавить участника$", reset_and_admin_dashboard),
+        ("^➕ Выдать задание$", start_assign_task),  # СПЕЦИАЛЬНЫЙ обработчик для запуска ConversationHandler
+        ("^👤 Добавить участника$", start_add_member),  # СПЕЦИАЛЬНЫЙ обработчик для запуска ConversationHandler
     ]
     
     for pattern, handler in admin_patterns:
@@ -199,7 +217,7 @@ def main():
     print("\n" + "=" * 60)
     print("✅ БОТ ЗАПУЩЕН!")
     print("=" * 60)
-    print("🎯 Теперь кнопки главного меню будут сбрасывать состояние")
+    print("🎯 Теперь кнопки главного меню будут работать правильно")
     print("=" * 60)
     
     application.run_polling(allowed_updates=Update.ALL_TYPES)
