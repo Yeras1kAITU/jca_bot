@@ -306,18 +306,6 @@ add_member_conversation = ConversationHandler(
     ],
 )
 
-async def admin_dashboard(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Главное меню администратора"""
-    if not context.user_data.get("is_admin"):
-        await update.message.reply_text("У вас нет прав администратора.")
-        return
-    
-    await update.message.reply_text(
-        "Панель администратора",
-        reply_markup=get_main_menu_keyboard(is_admin=True)
-    )
-
-
 async def show_all_members(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показать всех членов клуба"""
     members = firebase_service.get_all_members()
@@ -557,34 +545,6 @@ async def view_tasks_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
         import traceback
         traceback.print_exc()
         await update.message.reply_text("❌ Ошибка при получении статуса заданий.")
-
-async def assign_task_multi_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Начать процесс выдачи задания нескольким людям"""
-    if not context.user_data.get("is_admin"):
-        await update.message.reply_text("У вас нет прав администратора.")
-        return
-    
-    members = firebase_service.get_all_members()
-    non_admin_members = [m for m in members if not m.is_admin]
-    
-    if not non_admin_members:
-        await update.message.reply_text("❌ Нет доступных участников.")
-        return
-    
-    # Инициализируем список выбранных пользователей
-    context.user_data["selected_users"] = []
-    context.user_data["available_members"] = [m.telegram_username for m in non_admin_members]
-    
-    await update.message.reply_text(
-        "👥 *Выберите участников для задания*\n\n"
-        "Нажмите на имя чтобы выбрать/отменить выбор.\n"
-        "Нажмите '✅ Готово' когда выберете всех.",
-        parse_mode='Markdown',
-        reply_markup=get_multi_member_selection_keyboard(non_admin_members)
-    )
-    
-    return MULTI_SELECT_MEMBERS
-
 
 async def handle_multi_user_toggle(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработка выбора/отмены выбора пользователя"""

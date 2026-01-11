@@ -64,37 +64,65 @@ async def test_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print("🎯 TEST COMMAND ВЫЗВАНА!")
     await update.message.reply_text("✅ Тестовая команда работает!")
 
-# ДОБАВЬТЕ ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ
+# ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ - ТОЛЬКО ОДНА ФУНКЦИЯ
 async def global_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Глобальный обработчик отмены для всех состояний"""
     print("\n🔍 ГЛОБАЛЬНАЯ ОТМЕНА:")
     print(f"  Пользователь: @{update.effective_user.username}")
-    print(f"  Сообщение: {update.message.text}")
     
-    # Очищаем временные данные
-    keys_to_remove = [
-        "task_title", "task_description", "assign_to", 
-        "selected_users", "available_members", "selection_message_id",
-        "new_member_telegram", "new_member_full_name_ru", 
-        "new_member_full_name_en", "new_member_group",
-        "new_member_personality_type", "new_member_birth_date",
-        "awaiting_input", "comment_task_id"
-    ]
+    # ПРИНУДИТЕЛЬНЫЙ СБРОС ВСЕХ СОСТОЯНИЙ
+    # 1. Очищаем user_data кроме ключевых данных
+    important_keys = ["is_admin", "member", "telegram_username"]
+    important_data = {}
     
-    for key in keys_to_remove:
+    for key in important_keys:
         if key in context.user_data:
-            print(f"  Удаляю: {key}")
-            context.user_data.pop(key, None)
+            important_data[key] = context.user_data[key]
+            print(f"  Сохраняю: {key} = {context.user_data[key]}")
     
-    # Возвращаем в главное меню
+    # 2. Полностью очищаем user_data
+    context.user_data.clear()
+    print("  User_data очищен")
+    
+    # 3. Восстанавливаем важные данные
+    context.user_data.update(important_data)
+    
+    # 4. Принудительно завершаем ВСЕ ConversationHandler
+    # Возвращаем ConversationHandler.END чтобы выйти из любого состояния
     is_admin = context.user_data.get("is_admin", False)
     
     await update.message.reply_text(
-        "✅ Операция отменена. Возвращаюсь в главное меню.",
+        "✅ Возвращаюсь в главное меню.",
         reply_markup=get_main_menu_keyboard(is_admin)
     )
     
     return ConversationHandler.END
+
+# ОБЕРТКИ ДЛЯ КНОПОК ГЛАВНОГО МЕНЮ С ПРИНУДИТЕЛЬНЫМ СБРОСОМ
+async def reset_and_show_members(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Сбросить состояние и показать всех членов"""
+    await global_cancel(update, context)
+    await show_all_members(update, context)
+
+async def reset_and_show_my_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Сбросить состояние и показать мои задания"""
+    await global_cancel(update, context)
+    await show_my_tasks(update, context)
+
+async def reset_and_show_my_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Сбросить состояние и показать информацию о себе"""
+    await global_cancel(update, context)
+    await show_my_info(update, context)
+
+async def reset_and_view_tasks_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Сбросить состояние и показать статус заданий"""
+    await global_cancel(update, context)
+    await view_tasks_status(update, context)
+
+async def reset_and_admin_dashboard(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Сбросить состояние и показать админ панель"""
+    await global_cancel(update, context)
+    await admin_dashboard(update, context)
 
 def main():
     """Запуск простого рабочего бота"""
@@ -102,7 +130,7 @@ def main():
     
     application = Application.builder().token(config.BOT_TOKEN).build()
     
-    # 0. ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ
+    # 0. ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ - ВЫСШИЙ ПРИОРИТЕТ
     application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), global_cancel))
     application.add_handler(CommandHandler("cancel", global_cancel))
     print("✅ Глобальный обработчик отмены добавлен")
@@ -111,33 +139,42 @@ def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("test", test_command))
+    print("✅ Командные обработчики добавлены")
     
-    # 2. Обработчики сообщений для администраторов - ДОБАВЬТЕ ЭТО ПЕРЕД ConversationHandler
+    # 2. ОБРАБОТЧИКИ КНОПОК ГЛАВНОГО МЕНЮ С СБРОСОМ СОСТОЯНИЯ
+    # Для администраторов
     admin_patterns = [
-        ("^👥 Все члены клуба$", show_all_members),
-        ("^📊 Статус заданий$", view_tasks_status),
-        ("^➕ Выдать задание$", admin_dashboard),
-        ("^👤 Добавить участника$", admin_dashboard)
+        ("^👥 Все члены клуба$", reset_and_show_members),
+        ("^📊 Статус заданий$", reset_and_view_tasks_status),
+        ("^➕ Выдать задание$", reset_and_admin_dashboard),  # Здесь будет запуск ConversationHandler
+        ("^👤 Добавить участника$", reset_and_admin_dashboard),
     ]
     
     for pattern, handler in admin_patterns:
         application.add_handler(MessageHandler(filters.Regex(pattern), handler))
-    print("✅ Админские обработчики")
+    print("✅ Админские обработчики с сбросом состояния")
     
-    # 3. Обработчики сообщений для членов клуба - ТОЖЕ ДОБАВЬТЕ ЗДЕСЬ
-    application.add_handler(MessageHandler(filters.Regex("^📋 Мои задания$"), show_my_tasks))
-    application.add_handler(MessageHandler(filters.Regex("^👥 Информация о себе$"), show_my_info))
-    print("✅ Пользовательские обработчики")
+    # Для всех пользователей
+    user_patterns = [
+        ("^📋 Мои задания$", reset_and_show_my_tasks),
+        ("^👥 Информация о себе$", reset_and_show_my_info),
+    ]
     
-    # 4. ТЕПЕРЬ Conversation handlers для админов
+    for pattern, handler in user_patterns:
+        application.add_handler(MessageHandler(filters.Regex(pattern), handler))
+    print("✅ Пользовательские обработчики с сбросом состояния")
+    
+    # 3. CONVERSATION HANDLERS для админов (ТЕПЕРЬ ПОСЛЕ основных обработчиков)
     try:
+        # ConversationHandler для выдачи задания
         application.add_handler(assign_task_multi_conversation)
+        # ConversationHandler для добавления участника
         application.add_handler(add_member_conversation)
         print("✅ Conversation handlers добавлены")
-    except:
-        print("⚠️  Conversation handlers пропущены")
+    except Exception as e:
+        print(f"⚠️  Conversation handlers ошибка: {e}")
     
-    # 5. Callback handlers для заданий
+    # 4. CALLBACK HANDLERS для заданий
     print("\n📌 Регистрация callback обработчиков:")
     
     application.add_handler(CallbackQueryHandler(handle_task_view, pattern="^view_task_"))
@@ -155,14 +192,14 @@ def main():
     application.add_handler(CallbackQueryHandler(handle_member_info_callback, pattern="^member_info_"))
     print("✅ handle_member_info_callback (member_info_)")
     
-    # 6. Обработчик неизвестных команд
+    # 5. Обработчик неизвестных команд
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_unknown_command))
     print("✅ Обработчик неизвестных команд")
     
     print("\n" + "=" * 60)
     print("✅ БОТ ЗАПУЩЕН!")
     print("=" * 60)
-    print("🎯 Теперь кнопки главного меню будут иметь приоритет")
+    print("🎯 Теперь кнопки главного меню будут сбрасывать состояние")
     print("=" * 60)
     
     application.run_polling(allowed_updates=Update.ALL_TYPES)
