@@ -48,6 +48,14 @@ except ImportError as e:
     print(f"❌ Ошибка member_handlers: {e}")
     exit(1)
 
+# ИМПОРТ КЛАВИАТУР - ДОБАВЬТЕ ЭТО
+try:
+    from keyboards import get_main_menu_keyboard
+    print("✅ keyboards загружен")
+except ImportError as e:
+    print(f"❌ Ошибка keyboards: {e}")
+    exit(1)
+
 print("\n🎯 НАСТРОЙКА CALLBACK ОБРАБОТЧИКОВ")
 print("=" * 60)
 
@@ -56,12 +64,36 @@ async def test_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print("🎯 TEST COMMAND ВЫЗВАНА!")
     await update.message.reply_text("✅ Тестовая команда работает!")
 
-async def cancel_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Глобальный обработчик команды отмены"""
+# ДОБАВЬТЕ ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ
+async def global_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Глобальный обработчик отмены для всех состояний"""
+    print("\n🔍 ГЛОБАЛЬНАЯ ОТМЕНА:")
+    print(f"  Пользователь: @{update.effective_user.username}")
+    print(f"  Сообщение: {update.message.text}")
+    
+    # Очищаем временные данные
+    keys_to_remove = [
+        "task_title", "task_description", "assign_to", 
+        "selected_users", "available_members", "selection_message_id",
+        "new_member_telegram", "new_member_full_name_ru", 
+        "new_member_full_name_en", "new_member_group",
+        "new_member_personality_type", "new_member_birth_date",
+        "awaiting_input", "comment_task_id"
+    ]
+    
+    for key in keys_to_remove:
+        if key in context.user_data:
+            print(f"  Удаляю: {key}")
+            context.user_data.pop(key, None)
+    
+    # Возвращаем в главное меню
+    is_admin = context.user_data.get("is_admin", False)
+    
     await update.message.reply_text(
-        "Операция отменена.",
-        reply_markup=get_main_menu_keyboard(context.user_data.get("is_admin", False))
+        "✅ Операция отменена. Возвращаюсь в главное меню.",
+        reply_markup=get_main_menu_keyboard(is_admin)
     )
+    
     return ConversationHandler.END
 
 def main():
@@ -70,13 +102,16 @@ def main():
     
     application = Application.builder().token(config.BOT_TOKEN).build()
     
-    application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), cancel_handler))
+    # 0. ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ - ДОБАВЬТЕ ПЕРВЫМ
+    application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), global_cancel))
+    application.add_handler(CommandHandler("cancel", global_cancel))
+    print("✅ Глобальный обработчик отмены добавлен")
+    
     # 1. Обработчики команд
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("test", test_command))  # ← ДОБАВЬ ЭТУ СТРОКУ
-    application.add_handler(CommandHandler("cancel", cancel_handler))
-
+    
     # 2. Conversation handlers для админов
     try:
         application.add_handler(assign_task_multi_conversation)
@@ -118,8 +153,8 @@ def main():
     # 5. Обработчики сообщений для членов клуба
     application.add_handler(MessageHandler(filters.Regex("^📋 Мои задания$"), show_my_tasks))
     application.add_handler(MessageHandler(filters.Regex("^👥 Информация о себе$"), show_my_info))
-    application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), cancel_handler))
     print("✅ Пользовательские обработчики")
+    
     # 6. Обработчик неизвестных команд
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_unknown_command))
     print("✅ Обработчик неизвестных команд")
