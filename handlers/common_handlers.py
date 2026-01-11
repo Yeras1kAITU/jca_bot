@@ -30,6 +30,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print(f"✅ Найден: {member.full_name_ru}")
         print(f"📌 ID: {member.id}")
         print(f"💾 Текущий chat_id: {member.chat_id}")
+        print(f"👑 Роль: {member.role}")
+        print(f"🔐 Админ? {member.is_admin}")
         
         # СОХРАНЯЕМ CHAT_ID В FIREBASE
         try:
@@ -40,7 +42,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             print(f"❌ Ошибка сохранения: {e}")
         
         # Сохраняем данные в context
-        is_admin = member.role in config.ADMIN_ROLES
+        is_admin = member.is_admin  # ← Используем свойство is_admin
         context.user_data["is_admin"] = is_admin
         context.user_data["member"] = member
         context.user_data["telegram_username"] = username

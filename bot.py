@@ -102,7 +102,7 @@ def main():
     
     application = Application.builder().token(config.BOT_TOKEN).build()
     
-    # 0. ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ - ДОБАВЬТЕ ПЕРВЫМ
+    # 0. ГЛОБАЛЬНЫЙ ОБРАБОТЧИК ОТМЕНЫ
     application.add_handler(MessageHandler(filters.Regex("^❌ Отмена$"), global_cancel))
     application.add_handler(CommandHandler("cancel", global_cancel))
     print("✅ Глобальный обработчик отмены добавлен")
@@ -110,9 +110,26 @@ def main():
     # 1. Обработчики команд
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("test", test_command))  # ← ДОБАВЬ ЭТУ СТРОКУ
+    application.add_handler(CommandHandler("test", test_command))
     
-    # 2. Conversation handlers для админов
+    # 2. Обработчики сообщений для администраторов - ДОБАВЬТЕ ЭТО ПЕРЕД ConversationHandler
+    admin_patterns = [
+        ("^👥 Все члены клуба$", show_all_members),
+        ("^📊 Статус заданий$", view_tasks_status),
+        ("^➕ Выдать задание$", admin_dashboard),
+        ("^👤 Добавить участника$", admin_dashboard)
+    ]
+    
+    for pattern, handler in admin_patterns:
+        application.add_handler(MessageHandler(filters.Regex(pattern), handler))
+    print("✅ Админские обработчики")
+    
+    # 3. Обработчики сообщений для членов клуба - ТОЖЕ ДОБАВЬТЕ ЗДЕСЬ
+    application.add_handler(MessageHandler(filters.Regex("^📋 Мои задания$"), show_my_tasks))
+    application.add_handler(MessageHandler(filters.Regex("^👥 Информация о себе$"), show_my_info))
+    print("✅ Пользовательские обработчики")
+    
+    # 4. ТЕПЕРЬ Conversation handlers для админов
     try:
         application.add_handler(assign_task_multi_conversation)
         application.add_handler(add_member_conversation)
@@ -120,7 +137,7 @@ def main():
     except:
         print("⚠️  Conversation handlers пропущены")
     
-    # 3. Callback handlers для заданий
+    # 5. Callback handlers для заданий
     print("\n📌 Регистрация callback обработчиков:")
     
     application.add_handler(CallbackQueryHandler(handle_task_view, pattern="^view_task_"))
@@ -138,23 +155,6 @@ def main():
     application.add_handler(CallbackQueryHandler(handle_member_info_callback, pattern="^member_info_"))
     print("✅ handle_member_info_callback (member_info_)")
     
-    # 4. Обработчики сообщений для администраторов
-    admin_patterns = [
-        ("^👥 Все члены клуба$", show_all_members),
-        ("^📊 Статус заданий$", view_tasks_status),
-        ("^➕ Выдать задание$", admin_dashboard),
-        ("^👤 Добавить участника$", admin_dashboard)
-    ]
-    
-    for pattern, handler in admin_patterns:
-        application.add_handler(MessageHandler(filters.Regex(pattern), handler))
-    print("✅ Админские обработчики")
-    
-    # 5. Обработчики сообщений для членов клуба
-    application.add_handler(MessageHandler(filters.Regex("^📋 Мои задания$"), show_my_tasks))
-    application.add_handler(MessageHandler(filters.Regex("^👥 Информация о себе$"), show_my_info))
-    print("✅ Пользовательские обработчики")
-    
     # 6. Обработчик неизвестных команд
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_unknown_command))
     print("✅ Обработчик неизвестных команд")
@@ -162,7 +162,7 @@ def main():
     print("\n" + "=" * 60)
     print("✅ БОТ ЗАПУЩЕН!")
     print("=" * 60)
-    print("🎯 Теперь кнопки заданий должны работать")
+    print("🎯 Теперь кнопки главного меню будут иметь приоритет")
     print("=" * 60)
     
     application.run_polling(allowed_updates=Update.ALL_TYPES)
